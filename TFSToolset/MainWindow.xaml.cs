@@ -142,14 +142,14 @@ namespace TFSToolset
             try
             {
                 //Add folder
-                QueryFolder myNewFolder = tfsHelperFunctions.AddNewFolder(MoveQueryOldFolderTextBox.Text);
+                QueryFolder myOldFolder = tfsHelperFunctions.AddNewFolder(MoveQueryOldFolderTextBox.Text);
 
-                QueryFolder myOldFolder = tfsHelperFunctions.AddNewFolder(NewQueryFolderTextBox.Text);
+                QueryFolder myNewFolder = tfsHelperFunctions.AddNewFolder(MoveQueryNewFolderTextBox.Text);
 
-                //// Test query if needed
-                //tfsHelperFunctions.AddNewQuery("Test Query Sprint " + newSprintNumber,
-                //    "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me " +
-                //    "AND [System.WorkItemType] = 'Task'", myOldFolder);
+                // Test query if needed
+                tfsHelperFunctions.AddNewQuery("Test Query",
+                    "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me " +
+                    "AND [System.WorkItemType] = 'Task'", myOldFolder);
 
                 //Copy queries from previous folder
                 tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
