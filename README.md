@@ -17,6 +17,8 @@ TODO:
 > - Flesh out UI for better overall usage
 > - Add support for query templating to kick-off TFS projects
 > - Add features for backlog management
+> - Permissions management
+> - Simple output of the raw numbers of the project (backlog items, defects, etc.).
 
 Current User-Interface:
 --------------- 
