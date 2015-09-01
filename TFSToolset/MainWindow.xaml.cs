@@ -181,6 +181,7 @@ namespace TFSToolset
                 //success message
                 string fullPath = TFSURLTextBox.Text + ProjectNameTextBox.Text;
                 this.ShowMessageAsync("Success", "Connected to " + fullPath);
+                ConnectButton.Visibility = System.Windows.Visibility.Hidden;
             }
             catch (Exception ex)
             {
