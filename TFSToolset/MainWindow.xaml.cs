@@ -55,39 +55,47 @@ namespace TFSToolset
 
         //////////////////////////////////////////////////////////////////////////////
         /// GotFocus methods on Text Boxes to clear default text when clicked by user
+        
         private void NewQueryFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             NewQueryFolderTextBox.Text = string.Empty;
+            NewQueryFolderTextBox.GotFocus -= NewQueryFolderTextBox_OnGotFocus;
         }
 
         private void OldTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             OldTextBox.Text = string.Empty;
+            OldTextBox.GotFocus -= OldTextBox_OnGotFocus;
         }
 
         private void NewTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             NewTextBox.Text = string.Empty;
+            NewTextBox.GotFocus -= NewTextBox_OnGotFocus;
         }
 
         private void MoveQueryOldFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             MoveQueryOldFolderTextBox.Text = string.Empty;
+            MoveQueryOldFolderTextBox.GotFocus -= MoveQueryOldFolderTextBox_OnGotFocus;
         }
 
         private void MoveQueryNewFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             MoveQueryNewFolderTextBox.Text = string.Empty;
+            MoveQueryNewFolderTextBox.GotFocus -= MoveQueryNewFolderTextBox_OnGotFocus;
         }
 
         private void TFSURLTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             TFSURLTextBox.Text = string.Empty;
+            TFSURLTextBox.GotFocus -= TFSURLTextBox_OnGotFocus;
         }
 
         private void ProjectNameTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             ProjectNameTextBox.Text = string.Empty;
+            ProjectNameTextBox.GotFocus -= ProjectNameTextBox_OnGotFocus;
         }
 
         //////////////////////////////////////////////////////////////////////////////
