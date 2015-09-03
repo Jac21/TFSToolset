@@ -10,15 +10,15 @@
         <TextBox Name ="NewQueryFolderTextBox" GotFocus="NewQueryFolderTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="18,68,0,0" TextWrapping="Wrap" Text="Folder Name" VerticalAlignment="Top" Width="120"/>
         <Button Name="NewQueryAddButton" Content="Add" HorizontalAlignment="Left" Margin="18,152,0,0" VerticalAlignment="Top" Width="120" Click="NewQueryAddButton_Click"/>
 
-        <Label Name ="ReplaceTextLabel" Content="Enter text to replace" HorizontalAlignment="Left" Margin="197,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="OldTextBox" GotFocus="OldTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="197,68,0,0" TextWrapping="Wrap" Text="Old Text" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name ="NewTextBox" GotFocus="NewTextBox_OnGotFocus"  HorizontalAlignment="Left" Height="23" Margin="197,113,0,0" TextWrapping="Wrap" Text="New Text" VerticalAlignment="Top" Width="120"/>
-        <Button Name ="ReplaceTextButton" Content="Replace" HorizontalAlignment="Left" Margin="197,152,0,0" VerticalAlignment="Top" Width="120" Click="ReplaceTextButton_Click"/>
+        <Label Name ="ReplaceTextLabel" Content="Enter text to replace" HorizontalAlignment="Left" Margin="371,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="OldTextBox" GotFocus="OldTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="371,68,0,0" TextWrapping="Wrap" Text="Old Text" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name ="NewTextBox" GotFocus="NewTextBox_OnGotFocus"  HorizontalAlignment="Left" Height="23" Margin="371,113,0,0" TextWrapping="Wrap" Text="New Text" VerticalAlignment="Top" Width="120"/>
+        <Button Name ="ReplaceTextButton" Content="Replace" HorizontalAlignment="Left" Margin="371,152,0,0" VerticalAlignment="Top" Width="120" Click="ReplaceTextButton_Click"/>
 
-        <Label Name ="MoveQueryLabel" Content="Copy Queries from &#xD;&#xA;one folder to another" HorizontalAlignment="Left" Margin="377,10,0,0" VerticalAlignment="Top" Height="40"/>
-        <TextBox Name="MoveQueryOldFolderTextBox" GotFocus="MoveQueryOldFolderTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="376,68,0,0" TextWrapping="Wrap" Text="Old Folder" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="MoveQueryNewFolderTextBox" GotFocus="MoveQueryNewFolderTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="376,113,0,0" TextWrapping="Wrap" Text="New Folder" VerticalAlignment="Top" Width="120"/>
-        <Button Name="MoveQueryButton" Content="Copy" HorizontalAlignment="Left" Margin="377,152,0,0" VerticalAlignment="Top" Width="120" Click="MoveQueryButton_Click"/>
+        <Label Name ="MoveQueryLabel" Content="Copy Queries from &#xD;&#xA;one folder to another" HorizontalAlignment="Left" Margin="193,10,0,0" VerticalAlignment="Top" Height="40"/>
+        <TextBox Name="MoveQueryOldFolderTextBox" GotFocus="MoveQueryOldFolderTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="192,68,0,0" TextWrapping="Wrap" Text="Old Folder" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="MoveQueryNewFolderTextBox" GotFocus="MoveQueryNewFolderTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="192,113,0,0" TextWrapping="Wrap" Text="New Folder" VerticalAlignment="Top" Width="120"/>
+        <Button Name="MoveQueryButton" Content="Copy" HorizontalAlignment="Left" Margin="193,152,0,0" VerticalAlignment="Top" Width="120" Click="MoveQueryButton_Click"/>
 
         <TextBox Name ="TFSURLTextBox" GotFocus ="TFSURLTextBox_OnGotFocus"  HorizontalAlignment="Left" Height="23" Margin="126,288,0,0" TextWrapping="Wrap" Text="TFS URL" VerticalAlignment="Top" Width="153"/>
         <TextBox Name ="ProjectNameTextBox" GotFocus="ProjectNameTextBox_OnGotFocus" HorizontalAlignment="Left" Height="23" Margin="300,287,0,0" TextWrapping="Wrap" Text="Project Name" VerticalAlignment="Top" Width="120"/>

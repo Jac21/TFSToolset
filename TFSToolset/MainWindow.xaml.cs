@@ -149,15 +149,15 @@ namespace TFSToolset
         {
             try
             {
-                //Add folder
-                QueryFolder myOldFolder = tfsHelperFunctions.AddNewFolder(MoveQueryOldFolderTextBox.Text);
+                //Search for folders
+                QueryFolder myOldFolder = tfsHelperFunctions.Search(MoveQueryOldFolderTextBox.Text);
 
-                QueryFolder myNewFolder = tfsHelperFunctions.AddNewFolder(MoveQueryNewFolderTextBox.Text);
+                QueryFolder myNewFolder = tfsHelperFunctions.Search(MoveQueryNewFolderTextBox.Text);
 
-                // Test query if needed
-                tfsHelperFunctions.AddNewQuery("Test Query",
-                    "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me " +
-                    "AND [System.WorkItemType] = 'Task'", myOldFolder);
+                //// Test query if needed
+                //tfsHelperFunctions.AddNewQuery("Test Query",
+                //    "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me " +
+                //    "AND [System.WorkItemType] = 'Task'", myOldFolder);
 
                 //Copy queries from previous folder
                 tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
@@ -170,11 +170,12 @@ namespace TFSToolset
             {
                 if (ex is InvalidOperationException)
                 {
-                    this.ShowMessageAsync("Error", "Cannot add a folder that already exists");
+                    this.ShowMessageAsync("Error", "Cannot add queries that already exist");
                 }
                 else if (ex is NullReferenceException)
                 {
-                    this.ShowMessageAsync("Error", "Please connect to a TFS project before copying queries between folders");
+                    this.ShowMessageAsync("Error", "Please connect to a TFS project" +
+                                                   " and verify the folders exist before copying queries between them");
                 }
             }
         }

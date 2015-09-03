@@ -4,7 +4,7 @@ TFSToolset
 
 WPF application, built in Visual Studio 2013, utilizing the [MahApps.Metro](https://github.com/MahApps/MahApps.Metro) toolkit for Metro-style UI design.
 
-Current Feature-list (v. 1.0.0)
+Current Feature-list (v. 1.0.8)
 -------------
 
 > - Easily add query sub-folders to specified TFS projects
@@ -23,4 +23,4 @@ TODO:
 Current User-Interface:
 --------------- 
 
-![Image](http://i.imgur.com/qoaxTWz.png)
+![Image](http://i.imgur.com/Sefv4aa.png)

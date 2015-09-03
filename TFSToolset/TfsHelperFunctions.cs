@@ -12,6 +12,7 @@ namespace TFSToolset
         private TfsTeamProjectCollection _coll;
         private WorkItemStore _store;
         public static Project _myProject;
+        public QueryHierarchy _queryHierarchy;
 
         public string _tfsUrl;
         public string _projectName;
@@ -30,6 +31,8 @@ namespace TFSToolset
             _store = new WorkItemStore(_coll);
 
             _myProject = _store.Projects[projectName]; //"TestProject"
+
+            _queryHierarchy = _store.Projects[projectName].QueryHierarchy;
         }
 
         /// <summary>
@@ -94,6 +97,43 @@ namespace TFSToolset
             }
 
             throw new Exception("Cannot find the \"My Queries\" folder!");
+        }
+
+        /// <summary>
+        /// Returns a QueryFolder object of the name given in the 
+        /// "folderName" argument
+        /// </summary>
+        /// <param name="folderName"></param>
+        /// <returns></returns>
+        public QueryFolder Search(string folderName)
+        {
+            return (from QueryFolder folder in _queryHierarchy select Search(folder, folderName)).FirstOrDefault(result => result != null);
+        }
+
+        /// <summary>
+        /// Helper function for Search, used to iterate through each 
+        /// query folder and return the exact match to the folderName
+        /// argument
+        /// </summary>
+        /// <param name="hierarchyFolder"></param>
+        /// <param name="folderName"></param>
+        /// <returns></returns>
+        private static QueryFolder Search(QueryFolder hierarchyFolder, string folderName)
+        {
+            foreach (QueryFolder folder in hierarchyFolder.OfType<QueryFolder>())
+            {
+                if (folderName.Equals(folder.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return folder;
+                }
+
+                var result = Search(folder, folderName);
+
+                if (result == null) continue;
+                return result;
+            }
+
+            return null;
         }
 
         /// <summary>
