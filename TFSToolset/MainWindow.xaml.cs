@@ -62,18 +62,6 @@ namespace TFSToolset
             NewQueryFolderTextBox.GotFocus -= NewQueryFolderTextBox_OnGotFocus;
         }
 
-        private void OldTextBox_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            OldTextBox.Text = string.Empty;
-            OldTextBox.GotFocus -= OldTextBox_OnGotFocus;
-        }
-
-        private void NewTextBox_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            NewTextBox.Text = string.Empty;
-            NewTextBox.GotFocus -= NewTextBox_OnGotFocus;
-        }
-
         private void MoveQueryOldFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             MoveQueryOldFolderTextBox.Text = string.Empty;
@@ -84,6 +72,24 @@ namespace TFSToolset
         {
             MoveQueryNewFolderTextBox.Text = string.Empty;
             MoveQueryNewFolderTextBox.GotFocus -= MoveQueryNewFolderTextBox_OnGotFocus;
+        }
+
+        private void ReplaceFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            ReplaceFolderTextBox.Text = string.Empty;
+            ReplaceFolderTextBox.GotFocus -= ReplaceFolderTextBox_OnGotFocus;
+        }
+
+        private void OldTextBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            OldTextBox.Text = string.Empty;
+            OldTextBox.GotFocus -= OldTextBox_OnGotFocus;
+        }
+
+        private void NewTextBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            NewTextBox.Text = string.Empty;
+            NewTextBox.GotFocus -= NewTextBox_OnGotFocus;
         }
 
         private void TFSURLTextBox_OnGotFocus(object sender, RoutedEventArgs e)
@@ -114,33 +120,6 @@ namespace TFSToolset
                 if (ex is NullReferenceException)
                 {
                     this.ShowMessageAsync("Error", "Please connect to a TFS project before copying queries between folders");
-                }
-            }
-        }
-
-        private void ReplaceTextButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //Replace necessary text after iterating throughout all queries
-                foreach (QueryDefinition queryDefinition in tfsHelperFunctions.GetAllTeamQueries())
-                {
-                    if (queryDefinition.QueryText.Contains(OldTextBox.Text))
-                    {
-                        queryDefinition.QueryText = queryDefinition.QueryText.Replace(OldTextBox.Text, NewTextBox.Text);
-                    }
-                }
-
-                tfsHelperFunctions.SaveHierarchy();
-
-                this.ShowMessageAsync("Success",
-                    "\"" + OldTextBox.Text + "\"" + " replaced with \"" + NewTextBox.Text + "\"");
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentException)
-                {
-                    this.ShowMessageAsync("Error", "Please enter a valid string to replace");
                 }
             }
         }
@@ -176,6 +155,46 @@ namespace TFSToolset
                 {
                     this.ShowMessageAsync("Error", "Please connect to a TFS project" +
                                                    " and verify the folders exist before copying queries between them");
+                }
+            }
+        }
+
+        private void ReplaceTextButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ////Replace necessary text after iterating throughout all queries
+                //foreach (QueryDefinition queryDefinition in tfsHelperFunctions.GetAllTeamQueries())
+                //{
+                //    if (queryDefinition.QueryText.Contains(OldTextBox.Text))
+                //    {
+                //        queryDefinition.QueryText = queryDefinition.QueryText.Replace(OldTextBox.Text, NewTextBox.Text);
+                //    }
+                //}
+
+                // Find specified folder
+                var replaceTextFolder = tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
+
+                // iterate through folders' queries, replace specified text and entries
+                foreach (QueryDefinition queryDefinition in replaceTextFolder)
+                {
+                    if (queryDefinition.QueryText.Contains(OldTextBox.Text))
+                    {
+                        queryDefinition.QueryText = queryDefinition.QueryText.Replace(OldTextBox.Text, NewTextBox.Text);
+                    }
+                }
+
+                tfsHelperFunctions.SaveHierarchy();
+
+                this.ShowMessageAsync("Success",
+                    "\"" + OldTextBox.Text + "\"" + " replaced with \"" + NewTextBox.Text + "\""
+                    + " in " + ReplaceFolderTextBox.Text);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ArgumentException)
+                {
+                    this.ShowMessageAsync("Error", "Please enter a valid string to replace");
                 }
             }
         }

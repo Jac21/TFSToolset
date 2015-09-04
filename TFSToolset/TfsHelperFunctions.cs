@@ -162,7 +162,6 @@ namespace TFSToolset
             newFolder.Project.QueryHierarchy.Save();
         }
 
-
         /// <summary>
         /// Saves overall hierarchy after additional modifications have been made,
         /// keeps class field static instead of transplanting to Main()
