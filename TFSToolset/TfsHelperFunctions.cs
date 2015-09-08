@@ -10,7 +10,6 @@ namespace TFSToolset
     {
         //class fields
         private TfsTeamProjectCollection _coll;
-        private WorkItemStore _store;
         public static Project _myProject;
         public QueryHierarchy _queryHierarchy;
 
@@ -28,11 +27,11 @@ namespace TFSToolset
             _coll = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(
                 new Uri(tfsUrl)); //"http://dev2010:8080/tfs/TeamProjectCollection/"
 
-            _store = new WorkItemStore(_coll);
+            var store = new WorkItemStore(_coll);
 
-            _myProject = _store.Projects[projectName]; //"TestProject"
+            _myProject = store.Projects[projectName]; //"TestProject"
 
-            _queryHierarchy = _store.Projects[projectName].QueryHierarchy;
+            _queryHierarchy = store.Projects[projectName].QueryHierarchy;
         }
 
         /// <summary>
@@ -107,6 +106,7 @@ namespace TFSToolset
         /// <returns></returns>
         public QueryFolder Search(string folderName)
         {
+            // in hierarchy, call overloaded Search method, return match
             return (from QueryFolder folder in _queryHierarchy select Search(folder, folderName)).FirstOrDefault(result => result != null);
         }
 
@@ -120,8 +120,10 @@ namespace TFSToolset
         /// <returns></returns>
         private static QueryFolder Search(QueryFolder hierarchyFolder, string folderName)
         {
+            // iterate through all folders in project hierarchy
             foreach (QueryFolder folder in hierarchyFolder.OfType<QueryFolder>())
             {
+                // compare strings, case-insensitive
                 if (folderName.Equals(folder.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return folder;
@@ -138,21 +140,21 @@ namespace TFSToolset
 
         /// <summary>
         /// Copies all queries from specified folder, adds them to specified folder without 
-        /// affecting the former folder's queries
+        /// modifying the former folder's queries
         /// </summary>
         /// <param name="oldFolder"></param>
         /// <param name="newFolder"></param>
         public void CopyPreviousQueryFolderContent(QueryFolder oldFolder, QueryFolder newFolder)
         {
-            //List of all the old folder's queries
+            // List of all the old folder's queries
             List<QueryDefinition> oldQueryList = new List<QueryDefinition>();
             oldQueryList.AddRange(GetAllTeamQueries(oldFolder));
 
-            //List for the new folder's queries, copy of the previous list
+            // List for the new folder's queries, copy of the previous list
             List<QueryDefinition> newQueryList = new List<QueryDefinition>();
             newQueryList.AddRange(oldQueryList);
 
-            //iterates through each query in copied list, adds newly constructed queries in new folder
+            // iterates through each query in copied list, adds newly constructed queries in new folder
             foreach (var queryItem in newQueryList)
             {
                 QueryDefinition queryDefinition = new QueryDefinition(queryItem.Name, queryItem.QueryText);
@@ -188,7 +190,7 @@ namespace TFSToolset
         }
 
         /// <summary>
-        /// Helper function, grabs queries from specified folder
+        /// Helper function for overloaded GetAllTeamQueries function, grabs queries from specified folder
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
@@ -212,7 +214,7 @@ namespace TFSToolset
         }
 
         /// <summary>
-        /// Helper function, grabs specified folder
+        /// Helper function for GetAllTeamQueries, grabs specified folder
         /// </summary>
         /// <param name="folder"></param>
         /// <param name="folders"></param>
@@ -223,6 +225,5 @@ namespace TFSToolset
                 ? folder
                 : GetQueryFolder((QueryFolder)folder[folders[0]], folders.Skip(1).ToArray());
         }
-
     }
 }

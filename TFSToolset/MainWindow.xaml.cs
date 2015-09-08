@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
@@ -42,7 +31,7 @@ namespace TFSToolset
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -51,7 +40,7 @@ namespace TFSToolset
 
         //fields
         TfsHelperFunctions tfsHelperFunctions;// = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
-        VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
+        //VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
 
         //////////////////////////////////////////////////////////////////////////////
         /// GotFocus methods on Text Boxes to clear default text when clicked by user
@@ -176,8 +165,9 @@ namespace TFSToolset
                 var replaceTextFolder = tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
 
                 // iterate through folders' queries, replace specified text and entries
-                foreach (QueryDefinition queryDefinition in replaceTextFolder)
+                foreach (var queryItem in replaceTextFolder)
                 {
+                    var queryDefinition = (QueryDefinition) queryItem;
                     if (queryDefinition.QueryText.Contains(OldTextBox.Text))
                     {
                         queryDefinition.QueryText = queryDefinition.QueryText.Replace(OldTextBox.Text, NewTextBox.Text);
@@ -209,7 +199,7 @@ namespace TFSToolset
                 //success message
                 string fullPath = TFSURLTextBox.Text + ProjectNameTextBox.Text;
                 this.ShowMessageAsync("Success", "Connected to " + fullPath);
-                ConnectButton.Visibility = System.Windows.Visibility.Hidden;
+                ConnectButton.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
