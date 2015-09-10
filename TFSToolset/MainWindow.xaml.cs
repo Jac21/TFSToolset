@@ -40,6 +40,7 @@ namespace TFSToolset
 
         //fields
         TfsHelperFunctions tfsHelperFunctions;// = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
+        ExcelHelperFunctions excelHelperFunctions;
         //VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
 
         //////////////////////////////////////////////////////////////////////////////
@@ -152,15 +153,6 @@ namespace TFSToolset
         {
             try
             {
-                ////Replace necessary text after iterating throughout all queries
-                //foreach (QueryDefinition queryDefinition in tfsHelperFunctions.GetAllTeamQueries())
-                //{
-                //    if (queryDefinition.QueryText.Contains(OldTextBox.Text))
-                //    {
-                //        queryDefinition.QueryText = queryDefinition.QueryText.Replace(OldTextBox.Text, NewTextBox.Text);
-                //    }
-                //}
-
                 // Find specified folder
                 var replaceTextFolder = tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
 
@@ -208,6 +200,11 @@ namespace TFSToolset
                     this.ShowMessageAsync("Error", "Please enter a valid TFS URL/Project combination");
                 }
             }
+        }
+
+        private void StackPanel(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
