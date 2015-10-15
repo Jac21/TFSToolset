@@ -4,17 +4,17 @@ using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace TFSToolset
+namespace TFSToolset.UI.Views.Helpers
 {
-    class TfsHelperFunctions
+    public class TfsHelperFunctions
     {
         //class fields
         private TfsTeamProjectCollection _coll;
-        public static Project _myProject;
-        public QueryHierarchy _queryHierarchy;
+        public static Project MyProject;
+        public QueryHierarchy QueryHierarchy;
 
-        public string _tfsUrl;
-        public string _projectName;
+        public string TfsUrl;
+        public string ProjectName;
 
         /// <summary>
         /// Constructor that takes in the projects URL, grabs the work item store where
@@ -25,13 +25,13 @@ namespace TFSToolset
         public TfsHelperFunctions(string tfsUrl, string projectName)
         {
             _coll = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(
-                new Uri(tfsUrl)); //"http://dev2010:8080/tfs/TeamProjectCollection/"
+                new Uri(tfsUrl));
 
             var store = new WorkItemStore(_coll);
 
-            _myProject = store.Projects[projectName]; //"TestProject"
+            MyProject = store.Projects[projectName];
 
-            _queryHierarchy = store.Projects[projectName].QueryHierarchy;
+            QueryHierarchy = store.Projects[projectName].QueryHierarchy;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace TFSToolset
         public QueryFolder AddNewFolder(string folderName)
         {
             QueryFolder folder = new QueryFolder(folderName, GetMyQueriesFolder());
-            _myProject.QueryHierarchy.Save();
+            MyProject.QueryHierarchy.Save();
             return folder;
         }
 
@@ -56,7 +56,7 @@ namespace TFSToolset
         public QueryDefinition AddNewQuery(string queryTitle, string queryCommand, QueryFolder parentFolder)
         {
             QueryDefinition query = new QueryDefinition(queryTitle, queryCommand, parentFolder);
-            _myProject.QueryHierarchy.Save();
+            MyProject.QueryHierarchy.Save();
             return query;
         }
 
@@ -68,7 +68,7 @@ namespace TFSToolset
         public void RenameQueryItem(string newName, QueryItem folderQrQuery)
         {
             folderQrQuery.Name = newName;
-            _myProject.QueryHierarchy.Save();
+            MyProject.QueryHierarchy.Save();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace TFSToolset
         /// <returns></returns>
         public QueryFolder GetMyQueriesFolder()
         {
-            foreach (var queryItem in _myProject.QueryHierarchy)
+            foreach (var queryItem in MyProject.QueryHierarchy)
             {
                 var folder = (QueryFolder)queryItem;
                 if (folder.IsPersonal)
@@ -107,7 +107,7 @@ namespace TFSToolset
         public QueryFolder Search(string folderName)
         {
             // in hierarchy, call overloaded Search method, return match
-            return (from QueryFolder folder in _queryHierarchy select Search(folder, folderName)).FirstOrDefault(result => result != null);
+            return (from QueryFolder folder in QueryHierarchy select Search(folder, folderName)).FirstOrDefault(result => result != null);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace TFSToolset
         /// </summary>
         public void SaveHierarchy()
         {
-            _myProject.QueryHierarchy.Save();
+            MyProject.QueryHierarchy.Save();
         }
 
         /// <summary>
@@ -181,8 +181,8 @@ namespace TFSToolset
         {
             List<QueryDefinition> queryList = new List<QueryDefinition>();
 
-            var startQueryFolder = GetQueryFolder(_myProject.QueryHierarchy,
-                                                  _projectName == null ? (new string[] { }) : _projectName.Split('\\'));
+            var startQueryFolder = GetQueryFolder(MyProject.QueryHierarchy,
+                                                  ProjectName == null ? (new string[] { }) : ProjectName.Split('\\'));
 
             queryList.AddRange(GetAllTeamQueries(startQueryFolder));
 

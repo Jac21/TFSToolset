@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
+using System.Globalization;
+using System.Threading;
 using Microsoft.Office.Interop.Excel;
 
-namespace TFSToolset
+namespace TFSToolset.UI.Views.Helpers
 {
     public class ExcelHelperFunctions
     {
         // class fields
         private Application _xlApp = new Application();
-        public Worksheet[] _worksheetCollection;
-        public Workbook _workbook;
+        public Worksheet[] WorksheetCollection;
+        public Workbook Workbook;
 
         /// <summary>
         /// Constructor that intakes Excel application object
@@ -24,8 +21,8 @@ namespace TFSToolset
         {
             // workbook instantiation
             Workbook workbook = _xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-            this._xlApp = xlApp;
-            this._workbook = workbook;
+            _xlApp = xlApp;
+            Workbook = workbook;
 
             // sanity checks
             if (xlApp == null)
@@ -49,21 +46,21 @@ namespace TFSToolset
         {
             // specify culture to avoid exceptions regarding adding workbooks
             // on non-english machines
-            System.Threading.Thread.CurrentThread.CurrentCulture =
-                new System.Globalization.CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture =
+                new CultureInfo("en-US");
 
             // make a collection of worksheets, name them appropriately 
             var worksheetCollections = new Worksheet[sheetNames.Length];
             for (var i = sheetNames.Length - 1; i >= 0; --i)
             {
-                worksheetCollections[i] = this._workbook.Worksheets.Add();
+                worksheetCollections[i] = Workbook.Worksheets.Add();
                 worksheetCollections[i].Name = sheetNames[i];
             }
 
-            Worksheet ws = (Worksheet)_workbook.Worksheets[1];
+            Worksheet ws = (Worksheet)Workbook.Worksheets[1];
 
             // tie object for later use in main class
-            this._worksheetCollection = worksheetCollections;
+            WorksheetCollection = worksheetCollections;
         }
 
         // method stub

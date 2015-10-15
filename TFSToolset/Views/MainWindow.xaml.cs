@@ -1,33 +1,11 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using TFSToolset.UI.Views.Helpers;
 
-namespace TFSToolset
+namespace TFSToolset.UI.Views
 {
-    public class VisualTreeHelperExtensions
-    {
-        /// <summary>
-        /// Helper function to programmatically find an ancestor in the visual tree
-        /// Example usage: var grid = VisualTreeHelperExtensions.FindAncestor<Grid>(this);</Grid>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dependencyObject"></param>
-        /// <returns></returns>
-        public T FindAncestor<T>(DependencyObject dependencyObject) where T : class
-        {
-            DependencyObject target = dependencyObject;
-            do
-            {
-                target = VisualTreeHelper.GetParent(target);
-            } while (target is T);
-
-            return target as T;
-        }
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -39,8 +17,8 @@ namespace TFSToolset
         }
 
         //fields
-        TfsHelperFunctions tfsHelperFunctions;// = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
-        ExcelHelperFunctions excelHelperFunctions;
+        TfsHelperFunctions _tfsHelperFunctions;// = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
+        ExcelHelperFunctions _excelHelperFunctions;
         //VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
 
         //////////////////////////////////////////////////////////////////////////////
@@ -101,7 +79,7 @@ namespace TFSToolset
             try
             {
                 //Add folder
-                tfsHelperFunctions.AddNewFolder(NewQueryFolderTextBox.Text);
+                _tfsHelperFunctions.AddNewFolder(NewQueryFolderTextBox.Text);
 
                 this.ShowMessageAsync("Success", "New folder " + "\"" + NewQueryFolderTextBox.Text + "\"" + " added!");
             }
@@ -119,9 +97,9 @@ namespace TFSToolset
             try
             {
                 //Search for folders
-                QueryFolder myOldFolder = tfsHelperFunctions.Search(MoveQueryOldFolderTextBox.Text);
+                QueryFolder myOldFolder = _tfsHelperFunctions.Search(MoveQueryOldFolderTextBox.Text);
 
-                QueryFolder myNewFolder = tfsHelperFunctions.Search(MoveQueryNewFolderTextBox.Text);
+                QueryFolder myNewFolder = _tfsHelperFunctions.Search(MoveQueryNewFolderTextBox.Text);
 
                 //// Test query if needed
                 //tfsHelperFunctions.AddNewQuery("Test Query",
@@ -129,7 +107,7 @@ namespace TFSToolset
                 //    "AND [System.WorkItemType] = 'Task'", myOldFolder);
 
                 //Copy queries from previous folder
-                tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
+                _tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
 
                 //success message
                 this.ShowMessageAsync("Success", "Queries moved from " + MoveQueryOldFolderTextBox.Text + " to " +
@@ -154,7 +132,7 @@ namespace TFSToolset
             try
             {
                 // Find specified folder
-                var replaceTextFolder = tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
+                var replaceTextFolder = _tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
 
                 // iterate through folders' queries, replace specified text and entries
                 foreach (var queryItem in replaceTextFolder)
@@ -166,7 +144,7 @@ namespace TFSToolset
                     }
                 }
 
-                tfsHelperFunctions.SaveHierarchy();
+                _tfsHelperFunctions.SaveHierarchy();
 
                 this.ShowMessageAsync("Success",
                     "\"" + OldTextBox.Text + "\"" + " replaced with \"" + NewTextBox.Text + "\""
@@ -186,7 +164,7 @@ namespace TFSToolset
             try
             {
                 //construct class with user input URL and project name
-                tfsHelperFunctions = new TfsHelperFunctions(TFSURLTextBox.Text, ProjectNameTextBox.Text);
+                _tfsHelperFunctions = new TfsHelperFunctions(TFSURLTextBox.Text, ProjectNameTextBox.Text);
 
                 //success message
                 string fullPath = TFSURLTextBox.Text + ProjectNameTextBox.Text;
