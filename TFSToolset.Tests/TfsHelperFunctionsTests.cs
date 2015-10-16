@@ -1,8 +1,6 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 using TFSToolset.UI.Views.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TFSToolset.Tests
 {
@@ -11,11 +9,12 @@ namespace TFSToolset.Tests
     {
         #region SetUp
 
-        private TfsHelperFunctions _tfsHelperFunctions = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
+        private TfsHelperFunctions _tfsHelperFunctions;
 
         [TestFixtureSetUp]
         public void Init()
         {
+            _tfsHelperFunctions = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
         }
 
         [SetUp]
@@ -30,15 +29,31 @@ namespace TFSToolset.Tests
         [Test]
         public void ConnectivityTest()
         {
-            _tfsHelperFunctions.TfsUrl.ShouldBe("https://jac21.visualstudio.com/DefaultCollection/");
+            _tfsHelperFunctions.TfsUrl.ShouldBe(null);
+        }
+
+        [Test]
+        public void QueryTest()
+        {
+            
+        }
+
+        [Test]
+        public void CopyTest()
+        {
+            
         }
 
         #endregion
-     
+
+        #region TearDown
+
         [TearDown]
         public void TestTearDown()
         {
             
         }
+
+        #endregion
     }
 }
