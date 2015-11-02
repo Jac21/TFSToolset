@@ -182,7 +182,9 @@ namespace TFSToolset.UI.Views
 
         private void StackPanel(object sender, RoutedEventArgs e)
         {
-            
+            string displayName = _tfsHelperFunctions.GetStoreDetails()[0];
+
+            //UserNameTextBlock.Text = String.Concat(displayName);
         }
     }
 }

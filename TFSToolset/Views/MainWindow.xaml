@@ -44,10 +44,12 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Name="FlyoutStackPanel">
-                        <TextBlock Grid.Row="0"
+                        <TextBlock Name="UserNameTextBlock" Grid.Row="0"
                                    Text="TFS Display Name - " />
-                        <TextBlock Grid.Row="0"
+                        <TextBlock Name="StoryCountTextBlock"  Grid.Row="0"
                                    Text="Number of User Stories - " />
+                        <TextBlock Name="WorkItemCountTextBlock" Grid.Row="0"
+                                   Text="Number of Work Items - " />
                     </StackPanel>
                 </Grid>
             </Controls:Flyout>

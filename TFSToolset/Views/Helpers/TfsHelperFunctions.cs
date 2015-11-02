@@ -10,6 +10,7 @@ namespace TFSToolset.UI.Views.Helpers
     {
         //class fields
         private TfsTeamProjectCollection _coll;
+        private WorkItemStore Store;
         public static Project MyProject;
         public QueryHierarchy QueryHierarchy;
 
@@ -27,11 +28,11 @@ namespace TFSToolset.UI.Views.Helpers
             _coll = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(
                 new Uri(tfsUrl));
 
-            var store = new WorkItemStore(_coll);
+            Store = new WorkItemStore(_coll);
 
-            MyProject = store.Projects[projectName];
+            MyProject = Store.Projects[projectName];
 
-            QueryHierarchy = store.Projects[projectName].QueryHierarchy;
+            QueryHierarchy = Store.Projects[projectName].QueryHierarchy;
         }
 
         /// <summary>
@@ -224,6 +225,44 @@ namespace TFSToolset.UI.Views.Helpers
             return folders.Length == 0
                 ? folder
                 : GetQueryFolder((QueryFolder)folder[folders[0]], folders.Skip(1).ToArray());
+        }
+
+        /// <summary>
+        /// Returns a string array of various details of the Store,
+        /// including the user's display name
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetStoreDetails()
+        {
+            // get user's display name
+            string displayName = Store.UserDisplayName;
+
+            // store string details in string array for easy access
+            string[] storeDetails = new[] {displayName};
+            return storeDetails;
+        }
+
+        /// <summary>
+        /// Returns an int array of various metrics of the Store, including
+        /// the amount of stories, projects, and work items
+        /// </summary>
+        /// <returns></returns>
+        public int[] GetStoreDetailsCount()
+        {
+            // Query store for the number of work items in total
+            string workItemQueryString = "Select [Title] From WorkItems Where [Work Item Type] = 'User Story'";
+            Query workItemQuery = new Query(Store, workItemQueryString);
+            int storyCount = workItemQuery.RunCountQuery();
+
+            // total project count
+            int projectCount = Store.Projects.Count;
+            
+            // total work items count
+            int workItemTypeCount = Store.WorkItemLinkTypes.Count;
+
+            // store counts in int array for easy access
+            int[] detailsCounts = new[] {storyCount, projectCount, workItemTypeCount};
+            return detailsCounts;
         }
     }
 }
