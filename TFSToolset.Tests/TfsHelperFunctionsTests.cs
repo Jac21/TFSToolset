@@ -80,6 +80,17 @@ namespace TFSToolset.Tests
             // assert
         }
 
+        [Test]
+        public void DetailsTest()
+        {
+            // arrange
+
+            // act
+            _tfsHelperFunctions.GetStoreDetails();
+
+            // assert
+        }
+
         #endregion
 
         #region TearDown
