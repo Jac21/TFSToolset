@@ -74,8 +74,16 @@ namespace TFSToolset.Tests
         public void CopyTest()
         {
             // arrange
+            QueryFolder TestFolderOne = new QueryFolder("TestFolderOne");
+            QueryFolder TestFolderTwo = new QueryFolder("TestFolderTwo");
+
+            string queryTitle = "TestTitle";
+            string queryCommand = "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me";
 
             // act
+            _tfsHelperFunctions.AddNewQuery(queryTitle, queryCommand, TestFolderOne);
+
+            _tfsHelperFunctions.CopyPreviousQueryFolderContent(TestFolderOne, TestFolderTwo);
 
             // assert
         }
@@ -98,7 +106,7 @@ namespace TFSToolset.Tests
         [TearDown]
         public void TestTearDown()
         {
-            
+            // Delete any test-made folders
         }
 
         #endregion

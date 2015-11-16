@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TFSToolset.Logic.Models
+namespace TFSToolset.Logic.Extensions
 {
-    class ExcelModel
+    class ExcelExtensions
     {
-        string WorkSheetName { get; set; }
     }
 }
