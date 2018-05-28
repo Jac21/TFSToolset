@@ -11,19 +11,18 @@ namespace TFSToolset.UI.Views
     /// </summary>
     public partial class MainWindow
     {
+        //fields
+        private TfsHelperFunctions
+            tfsHelperFunctions; // = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
+        //VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        //fields
-        TfsHelperFunctions _tfsHelperFunctions;// = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
-        ExcelHelperFunctions _excelHelperFunctions;
-        //VisualTreeHelperExtensions visualTreeHelperExtensions = new VisualTreeHelperExtensions();
-
         //////////////////////////////////////////////////////////////////////////////
         /// GotFocus methods on Text Boxes to clear default text when clicked by user
-        
         private void NewQueryFolderTextBox_OnGotFocus(object sender, RoutedEventArgs e)
         {
             NewQueryFolderTextBox.Text = string.Empty;
@@ -79,7 +78,7 @@ namespace TFSToolset.UI.Views
             try
             {
                 //Add folder
-                _tfsHelperFunctions.AddNewFolder(NewQueryFolderTextBox.Text);
+                tfsHelperFunctions.AddNewFolder(NewQueryFolderTextBox.Text);
 
                 this.ShowMessageAsync("Success", "New folder " + "\"" + NewQueryFolderTextBox.Text + "\"" + " added!");
             }
@@ -87,7 +86,8 @@ namespace TFSToolset.UI.Views
             {
                 if (ex is NullReferenceException)
                 {
-                    this.ShowMessageAsync("Error", "Please connect to a TFS project before copying queries between folders");
+                    this.ShowMessageAsync("Error",
+                        "Please connect to a TFS project before copying queries between folders");
                 }
             }
         }
@@ -97,9 +97,9 @@ namespace TFSToolset.UI.Views
             try
             {
                 //Search for folders
-                QueryFolder myOldFolder = _tfsHelperFunctions.Search(MoveQueryOldFolderTextBox.Text);
+                QueryFolder myOldFolder = tfsHelperFunctions.Search(MoveQueryOldFolderTextBox.Text);
 
-                QueryFolder myNewFolder = _tfsHelperFunctions.Search(MoveQueryNewFolderTextBox.Text);
+                QueryFolder myNewFolder = tfsHelperFunctions.Search(MoveQueryNewFolderTextBox.Text);
 
                 //// Test query if needed
                 //tfsHelperFunctions.AddNewQuery("Test Query",
@@ -107,11 +107,11 @@ namespace TFSToolset.UI.Views
                 //    "AND [System.WorkItemType] = 'Task'", myOldFolder);
 
                 //Copy queries from previous folder
-                _tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
+                tfsHelperFunctions.CopyPreviousQueryFolderContent(myOldFolder, myNewFolder);
 
                 //success message
                 this.ShowMessageAsync("Success", "Queries moved from " + MoveQueryOldFolderTextBox.Text + " to " +
-                                MoveQueryNewFolderTextBox.Text + "!");
+                                                 MoveQueryNewFolderTextBox.Text + "!");
             }
             catch (Exception ex)
             {
@@ -132,7 +132,7 @@ namespace TFSToolset.UI.Views
             try
             {
                 // Find specified folder
-                var replaceTextFolder = _tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
+                var replaceTextFolder = tfsHelperFunctions.Search(ReplaceFolderTextBox.Text);
 
                 // iterate through folders' queries, replace specified text and entries
                 foreach (var queryItem in replaceTextFolder)
@@ -144,7 +144,7 @@ namespace TFSToolset.UI.Views
                     }
                 }
 
-                _tfsHelperFunctions.SaveHierarchy();
+                tfsHelperFunctions.SaveHierarchy();
 
                 this.ShowMessageAsync("Success",
                     "\"" + OldTextBox.Text + "\"" + " replaced with \"" + NewTextBox.Text + "\""
@@ -164,7 +164,7 @@ namespace TFSToolset.UI.Views
             try
             {
                 //construct class with user input URL and project name
-                _tfsHelperFunctions = new TfsHelperFunctions(TFSURLTextBox.Text, ProjectNameTextBox.Text);
+                tfsHelperFunctions = new TfsHelperFunctions(TFSURLTextBox.Text, ProjectNameTextBox.Text);
 
                 //success message
                 string fullPath = TFSURLTextBox.Text + ProjectNameTextBox.Text;
@@ -182,7 +182,7 @@ namespace TFSToolset.UI.Views
 
         private void StackPanel(object sender, RoutedEventArgs e)
         {
-            string displayName = _tfsHelperFunctions.GetStoreDetails()[0];
+            string displayName = tfsHelperFunctions.GetStoreDetails()[0];
 
             //UserNameTextBlock.Text = String.Concat(displayName);
         }

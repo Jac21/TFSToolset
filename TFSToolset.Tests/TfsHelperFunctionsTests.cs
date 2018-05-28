@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using NUnit.Framework;
 using Shouldly;
@@ -11,18 +12,17 @@ namespace TFSToolset.Tests
     {
         #region SetUp
 
-        private TfsHelperFunctions _tfsHelperFunctions;
+        private TfsHelperFunctions tfsHelperFunctions;
+        private List<QueryFolder> testFoldersToDelete;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void Init()
         {
-            _tfsHelperFunctions = new TfsHelperFunctions("https://jac21.visualstudio.com/DefaultCollection/", "TestProject");
-        }
+            tfsHelperFunctions =
+                new TfsHelperFunctions("https://tfstoolset.visualstudio.com", "MyFirstProject");
 
-        //[SetUp]
-        //public void TestInit()
-        //{
-        //}
+            testFoldersToDelete = new List<QueryFolder>();
+        }
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace TFSToolset.Tests
             // act
 
             // assert
-            _tfsHelperFunctions.TfsUrl.ShouldBe(null);
+            tfsHelperFunctions.TfsUrl.ShouldBe(null);
         }
 
         [Test]
@@ -44,12 +44,13 @@ namespace TFSToolset.Tests
         {
             // arrange
             Random random = new Random();
-            int randomNumber = random.Next(0, 100);
+            int randomNumber = random.Next(0, 1000);
 
             string folder = "TestFolder" + randomNumber;
 
             // act
-            _tfsHelperFunctions.AddNewFolder(folder);
+            testFoldersToDelete.Add(
+                tfsHelperFunctions.AddNewFolder(folder));
 
             // assert
             //_tfsHelperFunctions.QueryHierarchy.Count.ShouldBeGreaterThan(0);
@@ -60,30 +61,31 @@ namespace TFSToolset.Tests
         {
             // arrange
             string queryTitle = "TestTitle";
-            string queryCommand = "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me";
+            string queryCommand =
+                "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me";
             QueryFolder testQueryFolder = new QueryFolder("TestQueryFolder");
 
             // act
-            _tfsHelperFunctions.AddNewQuery(queryTitle, queryCommand, testQueryFolder);
+            tfsHelperFunctions.AddNewQuery(queryTitle, queryCommand, testQueryFolder);
 
             // assert
-
         }
 
         [Test]
         public void CopyTest()
         {
             // arrange
-            QueryFolder TestFolderOne = new QueryFolder("TestFolderOne");
-            QueryFolder TestFolderTwo = new QueryFolder("TestFolderTwo");
+            QueryFolder testFolderOne = new QueryFolder("TestFolderOne");
+            QueryFolder testFolderTwo = new QueryFolder("TestFolderTwo");
 
             string queryTitle = "TestTitle";
-            string queryCommand = "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me";
+            string queryCommand =
+                "SELECT [System.Title], [System.State] FROM WorkItems WHERE [System.AssignedTo] = @me";
 
             // act
-            _tfsHelperFunctions.AddNewQuery(queryTitle, queryCommand, TestFolderOne);
+            tfsHelperFunctions.AddNewQuery(queryTitle, queryCommand, testFolderOne);
 
-            _tfsHelperFunctions.CopyPreviousQueryFolderContent(TestFolderOne, TestFolderTwo);
+            tfsHelperFunctions.CopyPreviousQueryFolderContent(testFolderOne, testFolderTwo);
 
             // assert
         }
@@ -94,7 +96,7 @@ namespace TFSToolset.Tests
             // arrange
 
             // act
-            _tfsHelperFunctions.GetStoreDetails();
+            tfsHelperFunctions.GetStoreDetails();
 
             // assert
         }
@@ -107,6 +109,10 @@ namespace TFSToolset.Tests
         public void TestTearDown()
         {
             // Delete any test-made folders
+            foreach (var folder in testFoldersToDelete)
+            {
+                folder.Delete();
+            }
         }
 
         #endregion

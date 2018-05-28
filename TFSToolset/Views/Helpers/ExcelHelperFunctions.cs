@@ -8,7 +8,7 @@ namespace TFSToolset.UI.Views.Helpers
     public class ExcelHelperFunctions
     {
         // class fields
-        private Application _xlApp = new Application();
+        private readonly Application xlApp = new Application();
         public Worksheet[] WorksheetCollection;
         public Workbook Workbook;
 
@@ -20,15 +20,14 @@ namespace TFSToolset.UI.Views.Helpers
         public ExcelHelperFunctions(Application xlApp)
         {
             // workbook instantiation
-            Workbook workbook = _xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-            _xlApp = xlApp;
+            Workbook workbook = this.xlApp.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+            this.xlApp = xlApp;
             Workbook = workbook;
 
             // sanity checks
             if (xlApp == null)
             {
-                Console.WriteLine("EXCEL could not be started, please check" +
-                                  " that it is installed in your computer.");
+                Console.WriteLine(@"EXCEL could not be started, please check that it is installed in your computer.");
             }
 
             if (xlApp != null)
@@ -57,7 +56,7 @@ namespace TFSToolset.UI.Views.Helpers
                 worksheetCollections[i].Name = sheetNames[i];
             }
 
-            Worksheet ws = (Worksheet)Workbook.Worksheets[1];
+            Worksheet ws = (Worksheet) Workbook.Worksheets[1];
 
             // tie object for later use in main class
             WorksheetCollection = worksheetCollections;
