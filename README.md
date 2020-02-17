@@ -1,5 +1,8 @@
 TFSToolset
 ===================
+
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 WPF application, built in Visual Studio 2013, utilizing the [MahApps.Metro](https://github.com/MahApps/MahApps.Metro) toolkit for Metro-style UI design.
 
 Current Feature-list (v. 1.1.3)
